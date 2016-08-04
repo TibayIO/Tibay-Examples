@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tibay.io - HTTP AJAX example</title>
+</head>
+<body>
+<form action="">
+	<input type="text" id='message'>
+	<input type="submit" value="Send">
+</form>
+<script>
+var myData = {
+	key: 'g1YJxwZrJd4Celsw', // enter yor network key here
+	pass: 'IpxkSRbDAwiIuDt'  // enter your nework pass here
+};
+document.forms[0].onsubmit = function(ev) {
+	ev.preventDefault(); // prevent page reload
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "https://api.tibay.io", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	var input = document.getElementById('message');
+	xhttp.send(toQueryString({
+		key: myData.key,
+		pass: myData.pass,
+		protocol: 1,
+		data: input.value
+	}));
+	input.value = '';
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			alert(xhttp.responseText);
+		}
+	}
+}
+function toQueryString(obj) {
+	// converting object into query string
+	var parts = [];
+	for (var i in obj) {
+		if (obj.hasOwnProperty(i)) {
+			parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
+		}
+	}
+	return parts.join("&");
+}
+</script>
+</body>
+</html>
